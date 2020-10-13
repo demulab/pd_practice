@@ -1,0 +1,73 @@
+#include "ev3api.h"
+#include "app.h"
+
+void main_task(intptr_t exinf) {
+	int battery;                                            /* バッテリーの残量（int） */
+	ulong_t time;                                           /* システム時間（unsigned long: 32ビット以上かつint_t型以上のサイズの符号無し整数） */
+	int count;
+	char battery_str[32];                                   /* バッテリーの残量を表示するための文字列 */
+	char time_str[32];                                      /* システム時間を表示するための文字列 */
+	char count_str[32];                                     /* カウントを表示するための文字列 */
+
+	get_tim(&time);                                         /* 現在のシステム時間を取得 */
+	count = time/1000;                                      /* countに初期値を設定 */
+
+	//ev3_lcd_fill_rect(0, 0, EV3_LCD_WIDTH, EV3_LCD_HEIGHT, EV3_LCD_WHITE); /* LCD画面全体を白く塗り潰す（クリアする）*/
+	//tslp_tsk(1000000);
+
+	while(1){
+		//ev3_lcd_fill_rect(0, 0, 178, 128, EV3_LCD_WHITE); /* LCD画面全体を白く塗り潰す（クリアする）*/
+		//tslp_tsk(1000000);
+
+
+		battery = ev3_battery_voltage_mV();                 /* バッテリーの残量を取得 */
+		get_tim(&time);                                     /* 現在のシステム時間を取得 */
+
+		sprintf(time_str, "TIME: %ld", time);               /* システム時間を表示するための文字列作成 */
+		sprintf(count_str, "COUNT: %d", count);             /* カウントを表示するための文字列作成 */
+		sprintf(battery_str, "BATTERY: %d", battery);       /* バッテリーの残量を表示するための文字列作成 */
+
+		ev3_lcd_set_font(EV3_FONT_SMALL);                   /* LCDに表示するフォントの設定 */
+		                                                    /* 普通のサイズのフォント指定: EV3_FONT_MEDIUM, 小さいサイズのフォント指定: EV3_FONT_SMALL */
+		ev3_lcd_draw_string("HELLO", 0, 10);                /* 指定した位置(x=20,y=20)に'HELLO'表示 */
+		ev3_lcd_draw_string(time_str, 0, 20);               /* 指定した位置(20,40)にシステム時間を表示 */
+		ev3_lcd_draw_string(count_str, 0, 30);              /* 指定した位置(20,60)にカウントを表示 */
+		ev3_lcd_draw_string(battery_str, 0, 40);            /* 指定した位置(20,80)にバッテリーの残量を表示 */
+
+		ev3_lcd_draw_line(0, 50, EV3_LCD_WIDTH, 50);        /* 指定した位置(0,85)から(EV3_LCD_WIDTH, 85)までラインを描画 */
+		                                                    /* LCDの最大幅(178): EV3_LCD_WIDTH, LCDの最大高さ(128): EV3_LCD_HEIGHT */
+		ev3_lcd_fill_rect(30, 60, 10, 50, EV3_LCD_BLACK);   /* 指定した位置(30,60)に矩形（幅: 10, 高さ: 50）を描画 */
+		                                                    /* カラー（黒: EV3_LCD_BLACK, 白: EV3_LCD_WHITE） */
+		ev3_lcd_fill_rect(31, 61, 8, 9, EV3_LCD_WHITE);
+		ev3_lcd_fill_rect(31, 80, 8, 10, EV3_LCD_WHITE);
+		ev3_lcd_fill_rect(31, 100, 8, 9, EV3_LCD_WHITE);
+
+		ev3_lcd_fill_rect(120, 60, 10, 50, EV3_LCD_BLACK);
+		ev3_lcd_fill_rect(121, 61, 8, 9, EV3_LCD_WHITE);
+		ev3_lcd_fill_rect(121, 80, 8, 10, EV3_LCD_WHITE);
+		ev3_lcd_fill_rect(121, 100, 8, 9, EV3_LCD_WHITE);
+		
+		/* 動物の描画 */
+		ev3_lcd_fill_rect(50, 80, 60, 30, EV3_LCD_BLACK);
+		ev3_lcd_fill_rect(51, 81, 58, 28, EV3_LCD_WHITE);
+
+		ev3_lcd_fill_rect(50, 60, 20, 20, EV3_LCD_BLACK);
+		ev3_lcd_fill_rect(51, 61, 18, 20, EV3_LCD_WHITE);
+		ev3_lcd_fill_rect(55, 65, 10, 13, EV3_LCD_BLACK);
+		ev3_lcd_fill_rect(90, 60, 20, 20, EV3_LCD_BLACK);
+		ev3_lcd_fill_rect(91, 61, 18, 20, EV3_LCD_WHITE);
+		ev3_lcd_fill_rect(95, 65, 10, 13, EV3_LCD_BLACK);
+
+		ev3_lcd_fill_rect(60, 85, 2, 10, EV3_LCD_BLACK);
+		ev3_lcd_fill_rect(98, 85, 2, 10, EV3_LCD_BLACK);
+		
+		ev3_lcd_draw_line(75, 95, 85, 100);
+		ev3_lcd_draw_line(75, 100, 85, 95);
+
+		tslp_tsk(100);                                     /* 100000us (1000ms) 刻みで実行 */
+		// tslp_tsk(1000);
+		count++;
+	}
+
+	ext_tsk();                                              /* タスク終了処理 */
+}
