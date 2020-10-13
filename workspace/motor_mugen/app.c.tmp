@@ -1,0 +1,30 @@
+#include "ev3api.h"
+#include "app.h"
+
+void main_task(intptr_t exinf) {
+	int count;
+	char count_str[16];                        /* カウントを表示するための文字列 */
+
+	//ev3_lcd_set_font(EV3_FONT_MEDIUM);          /* LCDに表示するフォントの設定 */
+	ev3_lcd_draw_string("Hello World!", 0, 10); 
+	tslp_tsk(50000000);	
+
+	while(1){
+		sprintf(count_str, "COUNT:%d", count); /* カウントを表示するための文字列作成 */
+	
+		ev3_lcd_draw_string("Hello", 0, 10);   /* 指定した位置(x=0,y=10)に'Hello'を表示 */
+		tslp_tsk(10000);                       //　シミュレーションのみ必要
+		
+		ev3_lcd_draw_string(count_str, 0, 30); /* 指定した位置(0,30)にカウントを表示 */
+		tslp_tsk(10000);                       //　シミュレーションのみ必要
+
+		tslp_tsk(1000000);                     /* 100000us (1000ms) 刻みで実行 */
+		count++;
+	}
+
+    /* LCD画面全体を白く塗り潰す（クリアする）*/
+	ev3_lcd_fill_rect(0, 0, EV3_LCD_WIDTH, EV3_LCD_HEIGHT, EV3_LCD_WHITE); /* LCD画面全体を白く塗り潰す（クリアする）*/
+	tslp_tsk(5000000);	
+
+	ext_tsk();   /* タスク終了処理 */                                    
+}
