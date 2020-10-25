@@ -61,7 +61,7 @@ void main_task(intptr_t unused) {
 	RingTone(1251, 14* TEMPO, VOLUME);  
 	RingTone(1054, 55* TEMPO, VOLUME);  
 	
-	ev3_lcd_draw_string("MAIN TASK Terminated!", 0, 40);    /* 終了表示 */
+	ev3_lcd_draw_string("Star Wars Theme Terminated!", 0, 40);    /* 終了表示 */
 	
 	ext_tsk();                                              /* タスク終了処理 */
 }
