@@ -128,4 +128,6 @@ extern void bluetooth_echo_task(intptr_t exinf);
 
 // extern void	gpio_irq_dispatcher(intptr_t exinf);
 
+void RingTone(int freq, int time, int vol);
+
 #endif /* TOPPERS_MACRO_ONLY */
