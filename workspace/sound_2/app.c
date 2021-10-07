@@ -7,7 +7,7 @@
 void RingTone(int freq, int time, int vol){              /* 音符を再生するユーザー関数を定義 */
 	ev3_speaker_set_volume(vol);                         /* 音量設定（0～+100) */
 	ev3_speaker_play_tone(freq, time-50);                /* 音を鳴らす．周波数はHz，出力持続時間はミリ秒で指定． */
-	tslp_tsk(time);                                      /* 指定時間待機 */
+	tslp_tsk(time*1000);                                      /* 指定時間待機 */
 }
 
 void main_task(intptr_t unused) {
