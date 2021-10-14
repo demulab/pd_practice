@@ -2,20 +2,20 @@
 #include "app.h"
 
 void main_task(intptr_t exinf) {
-	uint32_t power = 100;                      /* ‰ñ“]ƒXƒs[ƒhiƒpƒ[j-100`+100 */
-	char power_str[32];                        /* ƒpƒ[‚ð•\Ž¦—p‚Ì•¶Žš—ñ */
+	uint32_t power = 100;                      /* å›žè»¢ã‚¹ãƒ”ãƒ¼ãƒ‰ï¼ˆãƒ‘ãƒ¯ãƒ¼ï¼‰-100ï½ž+100 */
+	char power_str[32];                        /* ãƒ‘ãƒ¯ãƒ¼ã‚’è¡¨ç¤ºç”¨ã®æ–‡å­—åˆ— */
 
-	sprintf(power_str, "POWER: %d", power);   /* ƒpƒ[‚ð•\Ž¦—p‚Ì•¶Žš—ñì¬ */
+	sprintf(power_str, "POWER: %d",(int) power);   /* ãƒ‘ãƒ¯ãƒ¼ã‚’è¡¨ç¤ºç”¨ã®æ–‡å­—åˆ—ä½œæˆ */
 
-	ev3_lcd_set_font(EV3_FONT_MEDIUM);         /* LCDƒtƒHƒ“ƒgÝ’è */
-	ev3_lcd_draw_string(power_str, 0, 30);     /* ƒpƒ[‚Ì’l‚ð•\Ž¦ */
+	ev3_lcd_set_font(EV3_FONT_MEDIUM);         /* LCDãƒ•ã‚©ãƒ³ãƒˆè¨­å®š */
+	ev3_lcd_draw_string(power_str, 0, 30);     /* ãƒ‘ãƒ¯ãƒ¼ã®å€¤ã‚’è¡¨ç¤º */
 
-	ev3_motor_config(EV3_PORT_A, LARGE_MOTOR); /* PORT A‚Éƒ‚[ƒ^[L‚ðÝ’è */
-	ev3_motor_config(EV3_PORT_B, LARGE_MOTOR); /* PORT B‚Éƒ‚[ƒ^[L‚ðÝ’è */
+	ev3_motor_config(EV3_PORT_A, LARGE_MOTOR); /* PORT Aã«ãƒ¢ãƒ¼ã‚¿ãƒ¼Lã‚’è¨­å®š */
+	ev3_motor_config(EV3_PORT_B, LARGE_MOTOR); /* PORT Bã«ãƒ¢ãƒ¼ã‚¿ãƒ¼Lã‚’è¨­å®š */
 
-	ev3_motor_set_power(EV3_PORT_A, power);    /* Žw’è‚µ‚½ƒpƒ[‚Å‰ñ“]“®ì */
-	ev3_motor_set_power(EV3_PORT_B, power);    /* Žw’è‚µ‚½ƒpƒ[‚Å‰ñ“]“®ì */
+	ev3_motor_set_power(EV3_PORT_A, power);    /* æŒ‡å®šã—ãŸãƒ‘ãƒ¯ãƒ¼ã§å›žè»¢å‹•ä½œ */
+	ev3_motor_set_power(EV3_PORT_B, power);    /* æŒ‡å®šã—ãŸãƒ‘ãƒ¯ãƒ¼ã§å›žè»¢å‹•ä½œ */
 	
-	ext_tsk();                                 /* ƒ^ƒXƒNI—¹ˆ— */
+	ext_tsk();                                 /* ã‚¿ã‚¹ã‚¯çµ‚äº†å‡¦ç† */
 }
 	
