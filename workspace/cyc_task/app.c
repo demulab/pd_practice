@@ -1,25 +1,25 @@
 #include "ev3api.h"
 #include "app.h"
 
-#define TEMPO 18                                        /* Šî–{‚Ì‰¹ºo—Í‘±ŠÔ‚Ìw’è */
-#define VOLUME 1                                        /* ‰¹—Ê‚Ìw’èi0`+100j */
+#define TEMPO 18                                        /* åŸºæœ¬ã®éŸ³å£°å‡ºåŠ›æŒç¶šæ™‚é–“ã®æŒ‡å®š */
+#define VOLUME 1                                        /* éŸ³é‡ã®æŒ‡å®šï¼ˆ0ï½+100ï¼‰ */
 
 void test_ev3_cychdr(intptr_t idx){
 	static int count = 0;
 	char buf[100];
 	sprintf(buf, "EV3CYC %d count %d", idx, ++count);
-	ev3_lcd_draw_string(buf, 0, 0);						// EV3‚ÌLCD‚É•¶š—ñ buf ‚ğ•\¦
+	ev3_lcd_draw_string(buf, 0, 10);						// EV3ã®LCDã«æ–‡å­—åˆ— buf ã‚’è¡¨ç¤º
 }
 
-void RingTone(int freq, int time, int vol){              /* ‰¹•„‚ğÄ¶‚·‚éƒ†[ƒU[ŠÖ”‚ğ’è‹` */
-	ev3_speaker_set_volume(vol);                         /* ‰¹—Êİ’èi0`+100D0‚Íƒ~ƒ…[ƒgD100’´‚¦‚é‚Æ+100‚É‚È‚éDj */
-	ev3_speaker_play_tone(freq, time);                   /* ‰¹‚ğ–Â‚ç‚·Dü”g”‚ÍHzCo—Í‘±ŠÔ‚Íƒ~ƒŠ•b‚Åw’èD */
-	tslp_tsk(time);                                      /* w’èŠÔ‘Ò‹@ [us] */
+void RingTone(int freq, int time, int vol){              /* éŸ³ç¬¦ã‚’å†ç”Ÿã™ã‚‹ãƒ¦ãƒ¼ã‚¶ãƒ¼é–¢æ•°ã‚’å®šç¾© */
+	ev3_speaker_set_volume(vol);                         /* éŸ³é‡è¨­å®šï¼ˆ0ï½+100ï¼0ã¯ãƒŸãƒ¥ãƒ¼ãƒˆï¼100è¶…ãˆã‚‹ã¨+100ã«ãªã‚‹ï¼ï¼‰ */
+	ev3_speaker_play_tone(freq, time);                   /* éŸ³ã‚’é³´ã‚‰ã™ï¼å‘¨æ³¢æ•°ã¯Hzï¼Œå‡ºåŠ›æŒç¶šæ™‚é–“ã¯ãƒŸãƒªç§’ã§æŒ‡å®šï¼ */
+	tslp_tsk(time*1000);                                      /* æŒ‡å®šæ™‚é–“å¾…æ©Ÿ [us] */
 }
 
 void main_task(intptr_t unused) {
 	
-	sta_cyc(TEST_EV3_CYC1);								/* üŠúƒnƒ“ƒhƒ‰‚ğŠJn‚·‚é */
+	sta_cyc(TEST_EV3_CYC1);								/* å‘¨æœŸãƒãƒ³ãƒ‰ãƒ©ã‚’é–‹å§‹ã™ã‚‹ */
 
 	RingTone(695, 14* TEMPO, VOLUME);  
 	RingTone(695, 14* TEMPO, VOLUME);  
@@ -61,7 +61,7 @@ void main_task(intptr_t unused) {
 	RingTone(1251, 14* TEMPO, VOLUME);  
 	RingTone(1054, 55* TEMPO, VOLUME);  
 	
-	ev3_lcd_draw_string("Star Wars Theme Terminated!", 0, 40);    /* I—¹•\¦ */
+	ev3_lcd_draw_string("Star Wars Theme Terminated!", 0, 40);    /* çµ‚äº†è¡¨ç¤º */
 	
-	ext_tsk();                                              /* ƒ^ƒXƒNI—¹ˆ— */
+	ext_tsk();                                              /* ã‚¿ã‚¹ã‚¯çµ‚äº†å‡¦ç† */
 }
