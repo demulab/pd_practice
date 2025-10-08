@@ -13,7 +13,7 @@ PD実践で使用するサンプルプログラムを次の手順でダウンロ
 - エクスプローラーが開くので、パスに\\wsl$と入力し、その後、Ubuntu > home > user へ移動して、pd_practice-master.zipを保存する。  
 <img width="1183" height="555" alt="SnapCrab_user - エクスプローラー_2025-10-8_16-7-44_No-00" src="https://github.com/user-attachments/assets/6b0f3d8e-fb33-4f82-a4c4-8b479d287adb" />
 
--ダウンロードしたpd_practice-master.zipにカーソール当ててマウスの右ボタンをクリックする。「これらのファイルを開くと、コンピュータに害を及ぼす可能性があります」と表示されるが、「OK」をクリックして、「すべて展開...」を選択して展開する。  
+- ダウンロードしたpd_practice-master.zipにカーソール当ててマウスの右ボタンをクリックする。「これらのファイルを開くと、コンピュータに害を及ぼす可能性があります」と表示されるが、「OK」をクリックして、「すべて展開...」を選択して展開する。  
 - 展開すると以下のフォルダができているので，sample_programの中の全ファイルを選択してコピーして、\home\user\programsにペーストする。
 -- \home\user\pd_practice-master\pd_practice-master\sample_program  
   下図のようなファイル構成になったら成功！  
