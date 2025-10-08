@@ -5,20 +5,16 @@
 
 **使用方法(2025年10月）**
 - コードのダウンロード  
--- このページの右上 <>Code → Download ZIPからダウンロードしてDesktopに保存する。
+-- このページの右上 <>Code → Download ZIPからダウンロードしてpd_practice-master.zipをDesktopに保存する。
 - エクスプローラーを開き、パスに\\wsl$と入力し、その後、Ubuntu > home > user > programsと移動する。
 <img width="1054" height="386" alt="SnapCrab_programs - エクスプローラー_2025-10-8_15-26-55_No-00" src="https://github.com/user-attachments/assets/5684a152-e2f0-461d-8e99-f8c083bf0ecf" />
 
-- /user/programsに保存　
-　追記：人によって保存場所が変わっている場合がある。Ubuntuの検索欄からprogramsで検索すると見つかる。  
-  programsのディレクトリ直下に実行ファイルがあれば良い。  
-  例：良い例   /user/programs/LCD_S1    
-      駄目な例 /user/programsi〇〇/LCD_S1  
-- cmd（コマンドプロンプト）を起動して、次のコマンドを打ち込む。  
+- 保存したpd_practice-master.zipを/user/programsの中に保存する。　
+- cmd（コマンドプロンプト）を起動して、次のコマンドを打ち込んでDockerを起動する。  
   ./start.sh  
 
-  下の表記が出れば成功！
-  * 注意：Ubuntuを閉じてしまったら毎回このコマンドを実行するようこと *
+  下の表記が出れば成功！  
+  *注意：Ubuntuを閉じてしまったら毎回このコマンドを実行してDockerを起動すること*
   user@<自分のユーザーネーム>:~$ ./start.sh  
   * Starting Docker docker  
   user@98afe5f78c3b:~$
