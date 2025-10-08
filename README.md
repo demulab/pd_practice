@@ -9,7 +9,7 @@
 - エクスプローラーを開き、パスに\\wsl$と入力し、その後、Ubuntu > home > user > programsと移動する。
 <img width="1054" height="386" alt="SnapCrab_programs - エクスプローラー_2025-10-8_15-26-55_No-00" src="https://github.com/user-attachments/assets/5684a152-e2f0-461d-8e99-f8c083bf0ecf" />
 
-- 保存したpd_practice-master.zipを/user/programsの中に保存する。　
+- 保存したpd_practice-master.zipをマウスでコピーして、/user/programsの中に貼り付ける（保存する）。　
 - cmd（コマンドプロンプト）を起動して、次のコマンドを打ち込んでDockerを起動する。  
   ./start.sh  
 
