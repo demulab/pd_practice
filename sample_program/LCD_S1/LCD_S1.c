@@ -1,61 +1,26 @@
-#include <kernel.h>                // RTOS（リアルタイムOS）の基本機能
-#include <pbio/color.h>            // 色に関する定義
-#include <spike/hub/system.h>      // SPIKEハブのシステム制御
-#include <stdio.h>                 // 標準入出力
-#include <stdlib.h>                // 標準ライブラリ（exitなど）
-#include <t_syslog.h>              // システムログ出力
-#include <LCD_S1.h>                // ディスプレイ表示関連
-
-// SPIKEハブの機能を使うためのヘッダ
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-
-// SPIKEのポートに接続するセンサやモータを使うためのヘッダ
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+#include <kernel.h>           // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>           // exit() を使うため
+#include <t_syslog.h>         // システムログ出力
+#include <LCD_S1.h>           // ディスプレイ表示関連
+#include "spike/hub/display.h"  // ハブの画面表示
 
 // ──────────────────────────────
-// センサやモータを使うための変数
-// ──────────────────────────────
-// ※ SPIKEでは、センサやモータを使うときにどのポートに何がつながっているか」を
-//  変数（ハンドル）で覚えておく必要があります。
-
-pup_motor_t *motorA;          // Aポートのモータ
-pup_motor_t *motorB;          // Bポートのモータ
-pup_device_t *ColorSensor;    // カラーセンサ
-pup_device_t *ForceSensor;    // 力（押す強さ）センサ
-pup_device_t *UltraSonicSensor; // 距離センサ（超音波）
-
-// ──────────────────────────────
-// メインタスク（RTOSが最初に動かす関数）
-// 普通のC言語のmain関数と違いがわかるようにMain関数としている。
+// Main関数（RTOSが最初に動かす関数）
+// ※普通のC言語の main() とは異なり、RTOSが呼び出します。
 // ──────────────────────────────
 void Main(intptr_t exinf)
 {
-    uint64_t count = 0;  // カウンタ（今は使っていません）
+    // シリアルモニタにメッセージを送る
+    // → SPIKEをPCにUSB接続し、TeraTermなどで確認できます。
+    syslog(LOG_NOTICE, "Program started.");
 
-    // システムログにメッセージを出力（デバッグ用）
-    // SPIKE-RTは標準出力がないので、ログはシリアルモニタに送られる。
-    // ログを見るためにはSPIKEとPCをUART(シリアル通信）接続し、TeraTermやPuTTYなどの
-    // シリアルモニタソフトで見る。1番目の引数LOG_NOTICEは状況を知らせたいときに使う。
-    // 2番目の引数は送りたい文字列
-    syslog(LOG_NOTICE, "Sample program started.");
-
-    // 3秒間待つ（単位はマイクロ秒）
+    // 3秒待機（単位はマイクロ秒）
     dly_tsk(3000000);
 
-    // ハブの画面に文字を表示（x=200, y=200）
-    // このサンプルではC言語バイブル「プログラング言語C」 (カーニハン&リッチー著)
-    // の最初の例と同じ”hello, world”とLCDに表示する。
+    // ハブのLEDマトリクスに文字を表示
     hub_display_text("hello, world", 200, 200);
 
-    // プログラムを終了。普通のC言語はreturn 0で終わるが、
-    // リアルタイムOSであるSPIKE-RTはexit(0)で終了処理をする。
+    // プログラムを終了
+    // SPIKE-RTでは return 0 ではなく exit(0) を使います。
     exit(0);
 }
