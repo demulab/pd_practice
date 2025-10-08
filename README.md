@@ -4,7 +4,21 @@
 ### SPIKE-RT用のサンプルプログラム 
 
 **使用方法(2025年10月）**
-- コードのダウンロード  
+- サンプルプログラムのダウンロード
+PD実践で使用するサンプルプログラムを次の手順でダウンロードしましょう．
+
+    次のURLにアクセスして，下図赤丸の[code]をクリックし，赤丸で示している[Download ZIP]をクリックして，pd_practice-master.zipをデスクトップにダウンロードする．
+        https://github.com/demulab/pd_practice
+
+        エクスプローラーが開くので、パスに\\wsl$と入力し、その後、Ubuntu > home > user へ移動して、pd_practice-master.zipを保存する。
+
+
+        ダウンロードしたpd_practice-master.zipにカーソール当ててマウスの右ボタンをクリックする。「これらのファイルを開くと、コンピュータに害を及ぼす可能性があります」と表示されるが、「OK」をクリックして、「すべて展開...」を選択して展開する。
+        展開すると以下のフォルダができているので，sample_programの中の全ファイルを選択してコピーして、\home\user\programsにペーストする。
+            \home\user\pd_practice-master\pd_practice-master\sample_program
+        下図のようなファイル構成になったら成功！
+
+
 -- このページの右上 <>Code → Download ZIPからダウンロードしてpd_practice-master.zipをDesktopに保存する。
 - エクスプローラーを開き、パスに\\wsl$と入力し、その後、Ubuntu > home > user > programsと移動する。
 <img width="1054" height="386" alt="SnapCrab_programs - エクスプローラー_2025-10-8_15-26-55_No-00" src="https://github.com/user-attachments/assets/5684a152-e2f0-461d-8e99-f8c083bf0ecf" />
