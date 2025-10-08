@@ -5,7 +5,10 @@
 
 **使用方法(2025年10月）**
 - コードのダウンロード  
-- エクスプローラーのUbuntを開く  
+-- このページの右上 <>Code → Download ZIPからダウンロードしてDesktopに保存する。
+- エクスプローラーを開き、パスに\\wsl$と入力し、その後、Ubuntu > home > user > programsと移動する。
+<img width="1054" height="386" alt="SnapCrab_programs - エクスプローラー_2025-10-8_15-26-55_No-00" src="https://github.com/user-attachments/assets/5684a152-e2f0-461d-8e99-f8c083bf0ecf" />
+
 - /user/programsに保存　
 　追記：人によって保存場所が変わっている場合がある。Ubuntuの検索欄からprogramsで検索すると見つかる。  
   programsのディレクトリ直下に実行ファイルがあれば良い。  
