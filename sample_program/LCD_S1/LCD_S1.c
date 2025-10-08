@@ -47,7 +47,7 @@ void Main(intptr_t exinf)
     dly_tsk(3000000);
 
     // ハブの画面に文字を表示（x=200, y=200）
-    hub_display_text("HELLO WORLD", 200, 200);
+    hub_display_text("hello, world", 200, 200);
 
     // プログラムを終了
     exit(0);
