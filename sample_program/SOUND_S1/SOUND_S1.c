@@ -1,51 +1,40 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>              // RTOSの基本機能
+#include <stdlib.h>              // exit() を使うため
+#include <t_syslog.h>            // ログ出力
 #include <SOUND_S1.h>
+#include "spike/hub/display.h"   // ディスプレイ表示
+#include "spike/hub/speaker.h"   // 音を鳴らす機能
+#include "spike/hub/battery.h"   // バッテリー情報
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
-
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
-
-// 音を再生する関数
+// ──────────────────────────────
+// 音を鳴らす関数
+// ──────────────────────────────
 void play_sound() {
-    int32_t quarter = 500;
-    hub_speaker_play_tone(NOTE_C4, quarter);
+    int32_t duration = 500;  // 音の長さ（ミリ秒）
+    hub_speaker_play_tone(NOTE_C4, duration);  // ドの音を再生
 }
 
-void Main(intptr_t exinf) {
-    uint64_t count = 0;
-    syslog(LOG_NOTICE, "Sample program started.", 0);
+// ──────────────────────────────
+// Main関数（RTOSが最初に動かす関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    // 起動メッセージをシリアルモニタに出力
+    syslog(LOG_NOTICE, "Program started.");
+
     // 音量を100%に設定
     hub_speaker_set_volume(100);
 
-    // 現在のバッテリー電圧を測定して表示
-    uint16_t battery = hub_battery_get_voltage();  // ()を追加して関数として呼び出す
-    hub_display_number(battery);                   // バッテリー電圧をディスプレイに表示
+    // バッテリー電圧を取得して画面に表示
+    uint16_t battery = hub_battery_get_voltage();
+    hub_display_number(battery);  // 数値をハブのLEDマトリクスに表示
 
-    // サウンドを再生
+    // 音を鳴らす
     play_sound();
 
-    // 3秒待機
+    // 3秒待つ（マイクロ秒単位）
     dly_tsk(3000000);
 
-    // finish program
+    // プログラムを終了
     exit(0);
 }
