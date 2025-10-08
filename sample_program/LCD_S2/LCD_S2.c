@@ -10,7 +10,7 @@
 // ──────────────────────────────
 void Main(intptr_t exinf)
 {
-    int num = 0;  // 表示する数字
+    int count = 0;  // 表示する数字
 
     // プログラム開始メッセージを出力（PCのシリアルモニタに表示される）
     syslog(LOG_NOTICE, "Program started.");
@@ -20,9 +20,9 @@ void Main(intptr_t exinf)
     // ──────────────────────────────
     while (1)
     {
-        hub_display_number(num);   // 数字をSPIKEハブの画面に表示
-        dly_tsk(1000000);          // 1秒待つ（マイクロ秒単位）
-        num++;                     // 数字を1増やす
+        hub_display_number(count);   // 数字をSPIKEハブの画面に表示
+        dly_tsk(1000000);            // 1秒待つ（マイクロ秒単位）
+        count++;                     // 数字を1増やす
     }
 
     // 実際にはここには来ません（無限ループのため）
