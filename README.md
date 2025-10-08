@@ -15,9 +15,9 @@
 
   下の表記が出れば成功！  
   user@<自分のユーザーネーム>:\~$ ./start.sh  
-  Starting Docker docker  
-  user@98afe5f78c3b:\~$
-  ** 注意：Ubuntuを閉じてしまったら毎回このコマンドを実行してDockerを起動すること**
+  \* Starting Docker docker  
+  user@98afe5f78c3b:\~$  
+  **注意：Ubuntuを閉じてしまったら毎回このコマンドを実行してDockerを起動すること**
  
 - ビルド：下記のコマンドを実行する。  
   ./build.sh <実行したいプログラム>  
