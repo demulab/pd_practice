@@ -1,68 +1,61 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>              // RTOSの基本機能
+#include <stdlib.h>              // exit() を使うため
+#include <t_syslog.h>            // シリアルモニタにメッセージを出す
 #include <SOUND_S2.h>
+#include "spike/hub/display.h"   // 画面表示
+#include "spike/hub/speaker.h"   // スピーカー制御
+#include "spike/hub/battery.h"   // バッテリー情報
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+// ──────────────────────────────
+// 音を鳴らす関数
+// ──────────────────────────────
+void play_sound() {
+    // 音の長さ（単位：ミリ秒）
+    int32_t quarter = 250;
+    int32_t half    = 500;
+    int32_t full    = 1000;
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
-
-
-
-void play_sound(){
-  int32_t quarter = 250;
-  int32_t half = 500;
-  int32_t full = 1000;
-  hub_speaker_play_tone(NOTE_C4, full);    //ド
-  hub_speaker_play_tone(NOTE_G4, full);    //ソ
-  hub_speaker_play_tone(NOTE_F4, quarter); //ファ
-  hub_speaker_play_tone(NOTE_E4, quarter); //ミ
-  hub_speaker_play_tone(NOTE_D4, quarter); //レ
-  hub_speaker_play_tone(NOTE_C5, full);    //ド高
-  hub_speaker_play_tone(NOTE_G4, half);    //ソ
-  hub_speaker_play_tone(NOTE_F4, quarter); //ファ
-  hub_speaker_play_tone(NOTE_E4, quarter); //ミ
-  hub_speaker_play_tone(NOTE_D4, quarter); //レ
-  hub_speaker_play_tone(NOTE_C5, full);    //ド高
-  hub_speaker_play_tone(NOTE_G4, half);    //ソ
-  hub_speaker_play_tone(NOTE_F4, quarter); //ファ
-  hub_speaker_play_tone(NOTE_E4, quarter); //ミ
-  hub_speaker_play_tone(NOTE_F4, quarter); //ファ
-  hub_speaker_play_tone(NOTE_D4, full);    //レ
-
-
+    // 音階を順番に鳴らす（ド・ソ・ファ・ミ・レ・ド など）
+    hub_speaker_play_tone(NOTE_C4, full);    // ド
+    hub_speaker_play_tone(NOTE_G4, full);    // ソ
+    hub_speaker_play_tone(NOTE_F4, quarter); // ファ
+    hub_speaker_play_tone(NOTE_E4, quarter); // ミ
+    hub_speaker_play_tone(NOTE_D4, quarter); // レ
+    hub_speaker_play_tone(NOTE_C5, full);    // 高いド
+    hub_speaker_play_tone(NOTE_G4, half);    // ソ
+    hub_speaker_play_tone(NOTE_F4, quarter); // ファ
+    hub_speaker_play_tone(NOTE_E4, quarter); // ミ
+    hub_speaker_play_tone(NOTE_D4, quarter); // レ
+    hub_speaker_play_tone(NOTE_C5, full);    // 高いド
+    hub_speaker_play_tone(NOTE_G4, half);    // ソ
+    hub_speaker_play_tone(NOTE_F4, quarter); // ファ
+    hub_speaker_play_tone(NOTE_E4, quarter); // ミ
+    hub_speaker_play_tone(NOTE_F4, quarter); // ファ
+    hub_speaker_play_tone(NOTE_D4, full);    // レ
 }
 
-void Main(intptr_t exinf) {
-    uint64_t count = 0;
-    syslog(LOG_NOTICE, "Sample program started.", 0);
-  
-  hub_speaker_set_volume(100);
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行する関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    // 起動時のメッセージをシリアルモニタに送信
+    syslog(LOG_NOTICE, "Program started.");
 
-  uint16_t battery = hub_battery_get_voltage();
-  hub_display_number(battery);
+    // スピーカーの音量を100%に設定
+    hub_speaker_set_volume(100);
 
-  play_sound();
+    // バッテリー電圧を取得してハブの画面に表示
+    uint16_t battery = hub_battery_get_voltage();
+    hub_display_number(battery);
 
-  //3秒待ちます
-  dly_tsk(3000000);
-    // finish program
+    // メロディを再生
+    play_sound();
+
+    // 3秒待機（単位：マイクロ秒）
+    dly_tsk(3000000);
+
+    // プログラムを終了
     exit(0);
 }
+
