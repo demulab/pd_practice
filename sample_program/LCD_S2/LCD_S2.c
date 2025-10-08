@@ -1,40 +1,30 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>          // RTOSの基本機能
+#include <stdlib.h>          // exit() を使うため
+#include <t_syslog.h>        // ログ出力
 #include <LCD_S2.h>
+#include "spike/hub/display.h"  // ディスプレイ表示
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
+// ──────────────────────────────
+// メインタスク（RTOSが最初に動かす関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    int num = 0;  // 表示する数字
 
-void Main(intptr_t exinf) {
-    uint64_t count = 0;
-    syslog(LOG_NOTICE, "Sample program started.", 0);
-    
-    int32_t num = 0;
-    while (1) 
+    // プログラム開始メッセージを出力（PCのシリアルモニタに表示される）
+    syslog(LOG_NOTICE, "Program started.");
+
+    // ──────────────────────────────
+    // 1秒ごとに数値をカウントアップして表示
+    // ──────────────────────────────
+    while (1)
     {
-        hub_display_number(num);
-        dly_tsk(1000000);                         // 1秒待機
-        num++;
+        hub_display_number(num);   // 数字をSPIKEハブの画面に表示
+        dly_tsk(1000000);          // 1秒待つ（マイクロ秒単位）
+        num++;                     // 数字を1増やす
     }
-    // finish program
+
+    // 実際にはここには来ません（無限ループのため）
     exit(0);
 }
