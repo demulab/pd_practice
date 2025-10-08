@@ -16,7 +16,8 @@ PD実践で使用するサンプルプログラムを次の手順でダウンロ
 - ダウンロードしたpd_practice-master.zipにカーソール当ててマウスの右ボタンをクリックする。「これらのファイルを開くと、コンピュータに害を及ぼす可能性があります」と表示されるが、「OK」をクリックして、「すべて展開...」を選択して展開する。  
 - 展開すると以下のフォルダができているので，sample_programの中の全ファイルを選択してコピーして、\home\user\programsにペーストする。
   - \home\user\pd_practice-master\pd_practice-master\sample_program  
-  下図のようなファイル構成になったら成功！  
+  
+- 下図のようなファイル構成になったら成功！  
 <img width="1182" height="579" alt="SnapCrab_programs - エクスプローラー_2025-10-8_16-20-9_No-00" src="https://github.com/user-attachments/assets/53beb340-013d-4f66-9ffb-cd63e384c57c" />
 
 - cmd（コマンドプロンプト）を起動して、次のコマンドを打ち込んでDockerを起動する。  
