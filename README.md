@@ -19,15 +19,15 @@
   user@98afe5f78c3b:\~$  
   **注意：Ubuntuを閉じてしまったら毎回このコマンドを実行してDockerを起動すること**
  
-- ビルド：下記のコマンドを実行する。  
-  ./build.sh <実行したいプログラム>  
-  → arm-none-eabi-object...と表示されたらビルド完了
+- ビルド：上で起動したDockerのターミナルで下記のコマンドを実行する。  
+  ./build.sh <実行したいプログラム>    
+  -- arm-none-eabi-object...と表示されたらビルド完了
 
-- Ubuntuを新たに開く  
+- Ubuntuを新たに開く。Spikeにプログラムを書きこむときは、Dockerではなく、新しく開いたUbuntuのターミナルを使う。  
 - Spike hubをDFUモードにする（DFUモード：hubの電源を一度オフにしBluetoothボタンを押しながらhubに通信用コードを挿し、Bluetoothボタンが紫色に光った状態で5秒間押し色が変化するれば成功）  
 ./write.sh <実行したいプログラム>  
-→ Finshedが表示されれば書き込み完了  
-- 実行：Spike Hubの大きいボタンを押せば実行される。
+-- Finshedが表示されれば書き込み完了  
+- 実行：Spike Hubの大きいボタンを押すとプログラムが実行される。
 
 
 
