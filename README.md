@@ -15,7 +15,7 @@
 
   下の表記が出れば成功！  
   user@<自分のユーザーネーム>:~$ ./start.sh  
-  \* Starting Docker docker  
+  Starting Docker docker  
   user@98afe5f78c3b:~$
   ** 注意：Ubuntuを閉じてしまったら毎回このコマンドを実行してDockerを起動すること**
  
