@@ -1,39 +1,29 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+// このプログラムはPIDを実装していない
+#include <kernel.h>      // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>      // exit() を使うため
+#include <t_syslog.h>    // シリアルモニタにメッセージを出す
 #include <PID.h>
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行する関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    uint64_t count = 0;  // カウンタ変数
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
+    // 起動メッセージをシリアルモニタに出力
+    syslog(LOG_NOTICE, "Program started.");
 
-void Main(intptr_t exinf) {
-    uint64_t count = 0;
-    syslog(LOG_NOTICE, "Sample program started.", 0);
-    while (true) {
-        // wait 1s
-        dly_tsk(1000000);
-
-        syslog(LOG_NOTICE, "count: %ld", count);
-        count++;
+    // ──────────────────────────────
+    // 1秒ごとにカウントを表示するループ
+    // ──────────────────────────────
+    while (1)
+    {
+        dly_tsk(1000000);  // 1秒待つ（単位はマイクロ秒）
+        syslog(LOG_NOTICE, "count: %ld", count);  // 現在のカウントを表示
+        count++;  // カウントを1増やす
     }
-    // finish program
+
+    // 実際にはここには到達しません（無限ループのため）
     exit(0);
 }
