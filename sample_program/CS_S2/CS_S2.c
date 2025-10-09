@@ -1,39 +1,36 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>                // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>                // exit() を使うため
+#include <t_syslog.h>              // シリアルモニタにメッセージを出す
 #include <CS_S2.h>
+#include "spike/pup/colorsensor.h" // カラーセンサーを使う
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行する関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    // 起動メッセージをシリアルモニタに表示
+    syslog(LOG_NOTICE, "Program started.");
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
+    // Dポートに接続されたカラーセンサーを取得
+    // pup_device_t* センサーを操作するための変数
+    pup_device_t *ColorSensor = pup_color_sensor_get_device(PBIO_PORT_ID_D);
 
-void Main(intptr_t exinf) {
+    // ──────────────────────────────
+    // カラーセンサーが認識した色を定期的に表示
+    // ──────────────────────────────
+    while (1)
+    {
+        // 1秒待つ（マイクロ秒単位）
+        dly_tsk(1000000);
 
-    syslog(LOG_NOTICE, "CS_S2 program started.", 0);
-      ColorSensor = pup_color_sensor_get_device(PBIO_PORT_ID_D);
-    while (true) {
-        // wait 1s
-        dly_tsk(500000);
-        char color=pup_color_sensor_color_name(ColorSensor, true);
-        syslog(LOG_NOTICE, "color: %c", color);
+        // 認識した色の名前を1文字で取得（例：'R'、'G'、'B'など）
+        char color = pup_color_sensor_color_name(ColorSensor, true);
+
+        // シリアルモニタに色を表示
+        syslog(LOG_NOTICE, "Color: %c", color);
     }
-    // finish program
+
+    // 実際にはここには到達しない（無限ループのため）
     exit(0);
 }
