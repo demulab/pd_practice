@@ -1,40 +1,38 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>                // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>                // exit() を使うため
+#include <t_syslog.h>              // シリアルモニタにメッセージを出す
 #include <TS_S2.h>
+#include "spike/hub/display.h"     // ハブのLEDマトリクス表示
+#include "spike/pup/forcesensor.h" // フォースセンサーを使う
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
-
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
-
-void Main(intptr_t exinf) {
-    uint64_t count = 0;
-    syslog(LOG_NOTICE, "Sample program started.", 0);
-ForceSensor = pup_force_sensor_get_device(PBIO_PORT_ID_D);
-
-while (1)
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行する関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
 {
-  float force=pup_force_sensor_force(ForceSensor);
-  hub_display_number(force);
-  dly_tsk(50000);
-}
-    // finish program
+    // 起動メッセージをシリアルモニタに出力（デバッグ用）
+    syslog(LOG_NOTICE, "Program started.");
+
+    // Dポートに接続されたフォースセンサーを取得
+    // pup_device_t はセンサーを操作するための変数型
+    pup_device_t *ForceSensor = pup_force_sensor_get_device(PBIO_PORT_ID_D);
+
+    // ──────────────────────────────
+    // 押す力を読み取って表示するループ
+    // ──────────────────────────────
+    while (1)
+    {
+        // 押す力を取得（単位：ニュートン[N]）
+        float force = pup_force_sensor_force(ForceSensor);
+
+        // 押す力をハブのLEDマトリクスに表示
+        // 小数点以下は切り捨てられる
+        hub_display_number((int)force);
+
+        // 0.05秒（50ミリ秒）待機
+        dly_tsk(50000);
+    }
+
+    // 実際にはここには到達しない（無限ループのため）
     exit(0);
 }
