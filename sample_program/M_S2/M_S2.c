@@ -1,46 +1,34 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>              // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>              // exit() を使うため
+#include <t_syslog.h>            // シリアルモニタにメッセージを出す
 #include <M_S2.h>
+#include "spike/pup/motor.h"     // PUPモータを使うためのヘッダ
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行する関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    // 起動メッセージをシリアルモニタに表示
+    syslog(LOG_NOTICE, "Motor test started.");
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
+    // Aポートのモータを初期化（反時計回りを正方向として設定）
+    pup_motor_t *motorA = pup_motor_init(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
 
-void Main(intptr_t exinf) {
-    uint64_t count = 0;
-    syslog(LOG_NOTICE, "Sample program started.", 0);
-    motorA = pup_motor_init(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
+    // ──────────────────────────────
+    // モータを1秒ごとに順転→逆転→順転させる
+    // ──────────────────────────────
 
-    pup_motor_set_speed(motorA, 500);
+    pup_motor_set_speed(motorA, 500);   // 正転（500度/秒）
+    dly_tsk(1000000);                   // 1秒待つ
 
-    dly_tsk(1000000);
+    pup_motor_set_speed(motorA, -500);  // 逆転（-500度/秒）
+    dly_tsk(1000000);                   // 1秒待つ
 
-    pup_motor_set_speed(motorA, -500);
+    pup_motor_set_speed(motorA, 500);   // 再び正転
+    dly_tsk(1000000);                   // 1秒待つ
 
-    dly_tsk(1000000);
-
-    pup_motor_set_speed(motorA, 500);
-
-    dly_tsk(1000000);
-
-    // finish program
+    // モータを停止してプログラム終了
+    pup_motor_brake(motorA);            // モータ停止（慣性で回転しない。すぐ止まる）
     exit(0);
 }
