@@ -1,43 +1,36 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>                // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>                // exit() を使うため
+#include <t_syslog.h>              // シリアルモニタにメッセージを出す
 #include <CS_S1.h>
+#include "spike/pup/colorsensor.h" // カラーセンサーを使う
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行する関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    // 起動メッセージをシリアルモニタに表示
+    syslog(LOG_NOTICE, "Program started.");
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
+    // Dポートに接続されたカラーセンサーを取得
+    // pup_device_t* はセンサーを操作するための変数
+    pup_device_t *ColorSensor = pup_color_sensor_get_device(PBIO_PORT_ID_D);
 
-void Main(intptr_t exinf) {
-
-    syslog(LOG_NOTICE, "CS_S1 started.", 0);
-
-    ColorSensor = pup_color_sensor_get_device(PBIO_PORT_ID_D);
-
+    // ──────────────────────────────
+    // 反射光の強さ（明るさ）を読み取って表示するループ
+    // ──────────────────────────────
     while (1)
     {
-        int32_t num = pup_color_sensor_reflection(ColorSensor);
-        syslog(LOG_NOTICE, "reflection: %ld", num);
+        // 反射光の強さを取得（0〜100 の範囲）
+        int32_t reflection = pup_color_sensor_reflection(ColorSensor);
+
+        // シリアルモニタに表示
+        syslog(LOG_NOTICE, "Reflection: %ld", reflection);
+
+        // 0.5秒待つ（マイクロ秒単位）
         dly_tsk(500000);
     }
-    
 
-    // finish program
+    // 実際にはここには到達しない（無限ループのため）
     exit(0);
 }
