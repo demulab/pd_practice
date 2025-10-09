@@ -1,40 +1,36 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>                // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>                // exit() を使うため
+#include <t_syslog.h>              // シリアルモニタにログを出す
 #include <TS_S3.h>
+#include "spike/pup/forcesensor.h" // フォースセンサーを使う
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行する）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    // 起動メッセージをシリアルモニタに出力
+    syslog(LOG_NOTICE, "Program started.");
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
+    // Dポートのフォースセンサーを取得
+    // pup_device_t* は「センサーを操作するための変数）」
+    pup_device_t *ForceSensor = pup_force_sensor_get_device(PBIO_PORT_ID_D);
 
-void Main(intptr_t exinf) {
-    ForceSensor = pup_force_sensor_get_device(PBIO_PORT_ID_D);  
-    syslog(LOG_NOTICE, "TS_S3 program started.", 0);
-    while (1) 
+    // ──────────────────────────────
+    // フォースセンサーの値を読み取って表示し続けるループ
+    // ──────────────────────────────
+    while (1)
     {  
-        float fouce = pup_force_sensor_force(ForceSensor);
-        char fouce_str[32];
-        snprintf(fouce_str, sizeof(fouce_str), "%.2f", fouce);  // 小数点以下2桁まで表示
-        syslog(LOG_NOTICE, "fouce: %s", fouce_str);
+        // 押す力を取得（単位：ニュートン[N]）
+        float force = pup_force_sensor_force(ForceSensor);
+
+        // シリアルモニタに小数点以下2桁まで出力
+        syslog(LOG_NOTICE, "Force: %.2f [N]", force);
+
+        // 0.05秒（50ミリ秒）待機して更新を繰り返す
         dly_tsk(50000);
     }
-    // finish program
+
+    // 実際には到達しない（無限ループのため）
     exit(0);
 }
