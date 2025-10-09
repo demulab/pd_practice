@@ -1,40 +1,43 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>                // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>                // exit() を使うため
+#include <t_syslog.h>              // シリアルモニタにメッセージを出す
 #include <TS_S1.h>
+#include "spike/hub/display.h"     // ハブのLEDマトリクス表示
+#include "spike/pup/forcesensor.h" // フォースセンサー（押す強さを検出）
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行する関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    // 起動時にメッセージをシリアルモニタに出力（デバッグ用）
+    syslog(LOG_NOTICE, "Program started.");
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
+    // ──────────────────────────────
+    // フォースセンサーを使うための変数を宣言
+    // pup_device_t は「センサーやモータなどの装置（デバイス）」を表す型です。
+    // *（アスタリスク）は「ポインタ」と呼ばれ、実際のセンサーを直接持たず、
+    // その“場所（アドレス）”を指す。    
+    // つまり、ForceSensor は「Dポートに接続されたフォースセンサーを操作するためのリモコン」
+    // のようなもの。
+    // ──────────────────────────────
+    pup_device_t *ForceSensor;
 
-void Main(intptr_t exinf) {
-    uint64_t count = 0;
-    syslog(LOG_NOTICE, "Sample program started.", 0);
-
+    // Dポートに接続されたフォースセンサーを取得
     ForceSensor = pup_force_sensor_get_device(PBIO_PORT_ID_D);
-    //portは各自設定
 
-    while (!pup_force_sensor_touched(ForceSensor)){
-    dly_tsk(100000);
+    // ──────────────────────────────
+    // センサーが押されるまで待機するループ
+    // pup_force_sensor_touched() は「センサーが押されたら true（1）」を返す。
+    // 押されていない間は 0（false）なので、while内で待ち続ける。
+    // ──────────────────────────────
+    while (!pup_force_sensor_touched(ForceSensor)) {
+        dly_tsk(100000);  // 0.1秒待つ（CPUを休ませる）
     }
-    hub_display_text("Pressed!",200,200);
 
+    // センサーが押されたらメッセージを表示
+    hub_display_text("Pressed!", 200, 200);　// x=200, y=200 は表示位置
+
+    // プログラムを終了
     exit(0);
 }
