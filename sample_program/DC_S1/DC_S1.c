@@ -1,38 +1,36 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>                  // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>                  // exit() を使うため
+#include <t_syslog.h>                // シリアルモニタにメッセージを出す
 #include <DC_S1.h>
+#include "spike/pup/ultrasonicsensor.h"  // 超音波センサーを使う
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行する関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    // 起動時のメッセージをシリアルモニタに出力
+    syslog(LOG_NOTICE, "Program started.");
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
+    // Eポートに接続された超音波センサーを取得
+    // pup_device_t* はセンサーを操作するための変数
+    pup_device_t *UltraSonicSensor = pup_ultrasonic_sensor_get_device(PBIO_PORT_ID_E);
 
-void Main(intptr_t exinf) {
-     UltraSonicSensor = pup_ultrasonic_sensor_get_device(PBIO_PORT_ID_E);
-    syslog(LOG_NOTICE, "Sample program started.", 0);
-    while (true) {
-        int32_t distance=pup_ultrasonic_sensor_distance(UltraSonicSensor);       
+    // ──────────────────────────────
+    // 距離を測定して表示するループ
+    // ──────────────────────────────
+    while (1)
+    {
+        // 距離を取得（単位：ミリメートル）
+        int32_t distance = pup_ultrasonic_sensor_distance(UltraSonicSensor);
 
-        syslog(LOG_NOTICE, "distance(mm): %ld", distance);
+        // シリアルモニタに距離を表示
+        syslog(LOG_NOTICE, "Distance: %ld mm", distance);
+
+        // 0.01秒（10ミリ秒）待つ（マイクロ秒単位）
         dly_tsk(10000);
     }
-    // finish program
+
+    // 実際にはここには到達しない（無限ループのため）
     exit(0);
 }
