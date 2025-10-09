@@ -1,38 +1,27 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>              // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>              // exit() を使うため
 #include <M_S4.h>
+#include "spike/pup/motor.h"     // PUPモータを使うためのヘッダ
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行する関数）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    // AポートとBポートのモータを初期化
+    // 回転方向は、Aは反時計回り、Bは時計回りに設定
+    pup_motor_t *motorA = pup_motor_init(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
+    pup_motor_t *motorB = pup_motor_init(PBIO_PORT_ID_B, PUP_DIRECTION_CLOCKWISE);
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
+    // ──────────────────────────────
+    // 2つのモータを同時に回転させるループ
+    // ──────────────────────────────
+    while (1)
+    {
+        // AモータとBモータを同時に回転（500度/秒）
+        pup_motor_set_speed(motorA, 500);
+        pup_motor_set_speed(motorB, 500);
+    }
 
-void Main(intptr_t exinf) {
-  motorA = pup_motor_init(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
-  motorB = pup_motor_init(PBIO_PORT_ID_B, PUP_DIRECTION_CLOCKWISE);
-
-
-
-  while (1)
-  {
-    pup_motor_set_speed(motorA, 500);
-    pup_motor_set_speed(motorB, 500);
-  }
+    exit(0);
 }
