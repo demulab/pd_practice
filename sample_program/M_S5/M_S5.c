@@ -1,52 +1,38 @@
-
-#include <kernel.h>
-#include <pbio/color.h>
-#include <spike/hub/system.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <t_syslog.h>
+#include <kernel.h>              // RTOS（リアルタイムOS）の基本機能
+#include <stdlib.h>              // exit() を使うため
 #include <M_S5.h>
+#include "spike/pup/motor.h"     // モータを使うためのヘッダ
 
-#include "spike/hub/battery.h"
-#include "spike/hub/button.h"
-#include "spike/hub/display.h"
-#include "spike/hub/imu.h"
-#include "spike/hub/light.h"
-#include "spike/hub/speaker.h"
-#include "spike/pup/colorsensor.h"
-#include "spike/pup/forcesensor.h"
-#include "spike/pup/motor.h"
-#include "spike/pup/ultrasonicsensor.h"
+// ──────────────────────────────
+// Main関数（RTOSが最初に実行される）
+// ──────────────────────────────
+void Main(intptr_t exinf)
+{
+    // AポートとBポートのモータを初期化
+    // Aは反時計回り、Bは時計回りを正方向に設定
+    pup_motor_t *motorA = pup_motor_init(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
+    pup_motor_t *motorB = pup_motor_init(PBIO_PORT_ID_B, PUP_DIRECTION_CLOCKWISE);
 
-pup_motor_t *motorA;             // モータAを使う変数
-pup_motor_t *motorB;             // モータBを使う変数
-pup_device_t *ColorSensor;       // カラーセンサーを使う変数
-pup_device_t *ForceSensor;       // フォースセンサーを使う変数
-pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
+    // 1秒待ってからスタート
+    dly_tsk(1000000);
 
-void Main(intptr_t exinf) {
-  motorA = pup_motor_init(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
-  motorB = pup_motor_init(PBIO_PORT_ID_B, PUP_DIRECTION_CLOCKWISE);
+    // モータA・Bを同時に500度/秒で回転
+    pup_motor_set_speed(motorA, 500);
+    pup_motor_set_speed(motorB, 500);
+    dly_tsk(1000000);  // 1秒間回転
 
-  dly_tsk(1000000);
+    // モータA・Bを停止
+    pup_motor_stop(motorA);
+    pup_motor_stop(motorB);
+    dly_tsk(850000);  // 0.85秒待機
 
-  pup_motor_set_speed(motorA, 500);
-  pup_motor_set_speed(motorB, 500);
+    // モータAだけ再び回転
+    pup_motor_set_speed(motorA, 500);
+    dly_tsk(1000000);  // 1秒間回転
 
-  dly_tsk(1000000);
-    
-  pup_motor_stop(motorA);
-  pup_motor_stop(motorB);
+    // すべてのモータを停止して終了
+    pup_motor_stop(motorA);
+    pup_motor_stop(motorB);
 
-  dly_tsk(850000);
-
-  pup_motor_set_speed(motorA, 500);
-  dly_tsk(1000000);
-  
-  
-  pup_motor_stop(motorA);
-  pup_motor_stop(motorB);
-
-
-  exit(0);
+    exit(0);
 }
