@@ -24,7 +24,8 @@ void Main(intptr_t exinf)
         // 1秒待つ（マイクロ秒単位）
         dly_tsk(1000000);
 
-        // 認識した色の名前を1文字で取得（例：'R'、'G'、'B'など）
+        // 認識した色の名前を1文字で取得（例：'R'、'G'、'B'など）。
+        // ２番目に引数はtrueならLEDがON、falseならLEDがOFF
         char color = pup_color_sensor_color_name(ColorSensor, true);
 
         // シリアルモニタに色を表示
