@@ -21,7 +21,7 @@ void Main(intptr_t exinf)
     // ──────────────────────────────
     while (1)
     {
-        // 反射光の強さを取得（0〜100 の範囲）
+        // 反射光の明度を取得（0〜100 の範囲）
         int32_t reflection = pup_color_sensor_reflection(ColorSensor);
 
         // シリアルモニタに表示
