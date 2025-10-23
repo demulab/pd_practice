@@ -5,7 +5,7 @@
 #include "spike/pup/motor.h"     // PUPモータを使うためのヘッダ
 
 // ──────────────────────────────
-// Main関数（RTOSが最初に実行する関数）
+// Main関数（RTOSが最初に実行する関数） 
 // ──────────────────────────────
 void Main(intptr_t exinf)
 {
