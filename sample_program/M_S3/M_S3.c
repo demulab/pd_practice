@@ -14,7 +14,7 @@ void Main(intptr_t exinf)
 
     // Aポートのモータを初期化
     // 第2引数：回転方向（時計回り or 反時計回り）
-    pup_motor_t *motorA = pup_motor_init(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
+    pup_motor_t *motorA = pup_motor_setup(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
 
     // ──────────────────────────────
     // モータの角度（回転位置）を繰り返し取得して表示
