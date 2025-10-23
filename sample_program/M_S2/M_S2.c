@@ -13,7 +13,7 @@ void Main(intptr_t exinf)
     syslog(LOG_NOTICE, "Motor test started.");
 
     // Aポートのモータを初期化（反時計回りを正方向として設定）
-    pup_motor_t *motorA = pup_motor_init(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
+    pup_motor_t *motorA = pup_motor_setup(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
 
     // ──────────────────────────────
     // モータを1秒ごとに順転→逆転→順転させる
