@@ -10,8 +10,8 @@ void Main(intptr_t exinf)
 {
     // AポートとBポートのモータを初期化
     // 回転方向は、Aは反時計回り、Bは時計回りに設定
-    pup_motor_t *motorA = pup_motor_init(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
-    pup_motor_t *motorB = pup_motor_init(PBIO_PORT_ID_B, PUP_DIRECTION_CLOCKWISE);
+    pup_motor_t *motorA = pup_motor_setup(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
+    pup_motor_t *motorB = pup_motor_setup(PBIO_PORT_ID_B, PUP_DIRECTION_CLOCKWISE);
 
     // ──────────────────────────────
     // 2つのモータを同時に回転させるループ
