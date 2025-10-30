@@ -32,6 +32,5 @@
 #ifndef TOPPERS_MACRO_ONLY
 
 extern void	Main(intptr_t exinf);
-extern void main_task(intptr_t exinf);
 extern void sub_task(intptr_t exinf);
 #endif /* TOPPERS_MACRO_ONLY */
