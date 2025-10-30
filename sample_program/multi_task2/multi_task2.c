@@ -5,7 +5,7 @@
 #include <kernel.h>              // RTOSの基本機能
 #include <stdlib.h>              // exit() を使うため
 #include <t_syslog.h>            // ログ出力
-#include <multi_demu.h>
+#include <multi_task2.h>
 #include "spike/hub/display.h"   // ディスプレイ表示
 #include "spike/hub/speaker.h"   // 音を鳴らす機能
 #include "spike/hub/battery.h"   // バッテリー情報
