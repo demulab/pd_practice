@@ -1,7 +1,7 @@
 # pd_practice
 ## 金沢工業大学ロボティクス学科PD実践
 
-**アフレルの開発環境をインストールするとWSL Ubuntuに作られる~/programs/templateにsyslogが表示されないバグがあるので、このフォルダにあるtemplateに置き換えてください。**
+**アフレルの開発環境をインストールするとWSL Ubuntuに作られる~/programs/templateにsyslogが表示されないバグがあるので、このフォルダにあるtemplateにまるごと置き換えてください。**
 
 ### SPIKE-RT用のサンプルプログラム 
 
