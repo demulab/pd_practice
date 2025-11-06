@@ -26,33 +26,34 @@ pup_device_t *ColorSensor;       // カラーセンサーを使う変数
 pup_device_t *ForceSensor;       // フォースセンサーを使う変数
 pup_device_t *UltraSonicSensor;  // 距離センサーを使う変数
 
-#define COUNT 10000		/* �J�E���g����10000�ɒ�` */
+#define COUNT 10000		// カウント数を10000に定義
 #define TIME_LOOP 1000000000
 
 void main_task(intptr_t unused) {	
 	int i,j,k;
 	char buf[5];
 		
-	for(i=0 ; i<=COUNT ; i++){		/* �J�E���g�������J��Ԃ� */		
+	for(i=0 ; i<=COUNT ; i++){		//	カウント数だけ繰り返す	
 		syslog(LOG_NOTICE, "MAIN TASK= %d", i);	     
 
 			tslp_tsk(5);
 		
 	}
 	act_tsk(SUB_TASK);
-	ext_tsk();					/* �����I�� */
+	ext_tsk();					//処理終了
 }
 
 void sub_task(intptr_t unused) {
 	int i,j,k;
 	char buf[5];
 		
-	for(i=0 ; i<=COUNT ; i++){		/* �J�E���g�������J��Ԃ� */		
+	for(i=0 ; i<=COUNT ; i++){		//カウント数だけ繰り返す
 		syslog(LOG_NOTICE, "SUB  TASK= %d", i);
         
 			tslp_tsk(5);
 	
 	}
 
-	ext_tsk();					/* �����I�� */
+	ext_tsk();					//処理終了
 }
+
