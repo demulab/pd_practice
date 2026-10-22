@@ -17,7 +17,7 @@ void Main(intptr_t exinf)
     
     // Aポートのモータを初期化（変更２）
     // 第2引数：回転方向（PUP_DIRECTION_CLOCKWISE または COUNTERCLOCKWISE） 
-    // 第3引数：レセット。trueで角度を0にする。
+    // 第3引数：リセット。trueで角度を0にする。
     pbio_error_t err = pup_motor_setup(motorA, PUP_DIRECTION_CLOCKWISE, true);
 
     // ──────────────────────────────
