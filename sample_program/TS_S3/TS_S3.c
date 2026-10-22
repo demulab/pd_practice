@@ -5,10 +5,26 @@
 #include <TS_S3.h>
 #include "spike/pup/forcesensor.h" // フォースセンサーを使う
 
-// 押す力を mN 単位で返す（ライブラリ内部と同じ計算）。
-// SPIKE_RTのライブラリにバグがあり小数点以下を切り捨てて返すので、
+// 押す力を mN 単位で返す（例：3.14 N → 3140）
 static int32_t force_sensor_mN(pup_device_t *pdev)
 {
+    // 校正値（static なので、関数を抜けても値が残る）
+    static bool    calibrated = false;  // 校正値をもう読んだか
+    static int32_t raw_offset;          // オフセット
+    static int32_t raw_released;        // ボタンを離しているときの値
+    static int32_t raw_end;             // いっぱいまで押したときの値
+
+    // 最初の1回だけ、センサーから校正値を読み込む
+    if (!calibrated) {
+        int32_t calib[8];
+        pup_device_get_values(pdev, PBIO_IODEV_MODE_PUP_FORCE_SENSOR__CALIB, calib);
+        raw_offset   = calib[1];
+        raw_released = calib[2];
+        raw_end      = calib[6];
+        calibrated   = true;
+    }
+
+    // 生の値を読んで mN に変換（ライブラリ内部と同じ計算）
     int32_t raw;
     pup_device_get_values(pdev, PBIO_IODEV_MODE_PUP_FORCE_SENSOR__FRAW, &raw);
     int32_t mN = 10000 * (raw - raw_released - raw_offset) / (raw_end - raw_released);
