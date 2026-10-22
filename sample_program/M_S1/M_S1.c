@@ -12,10 +12,10 @@ void Main(intptr_t exinf)
     // 起動メッセージをシリアルモニタに出力
     syslog(LOG_NOTICE, "Program started.");
 
-    // ポートのモータを取得
+    // ポートのモータを取得（変更１）
     pup_motor_t *motorA = pup_motor_get_device(PBIO_PORT_ID_A);
     
-    // Aポートのモータを初期化
+    // Aポートのモータを初期化（変更２）
     // 第2引数：回転方向（PUP_DIRECTION_CLOCKWISE または COUNTERCLOCKWISE） 
     // 第3引数：レセット。trueで角度を0にする。
     pbio_error_t err = pup_motor_setup(motorA, PUP_DIRECTION_CLOCKWISE, true);
