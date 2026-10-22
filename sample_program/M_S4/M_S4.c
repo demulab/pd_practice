@@ -1,3 +1,4 @@
+// M_S4.c  モータサンプルプログラム4  2026-10-22
 #include <kernel.h>              // RTOS（リアルタイムOS）の基本機能
 #include <stdlib.h>              // exit() を使うため
 #include <M_S4.h>
