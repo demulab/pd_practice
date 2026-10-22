@@ -16,7 +16,7 @@ void Main(intptr_t exinf)
     // 第2引数：回転方向（PUP_DIRECTION_CLOCKWISE または COUNTERCLOCKWISE） 
     // 第3引数：リセット。trueで角度を0にする。
     pbio_error_t errA = pup_motor_setup(motorA, PUP_DIRECTION_COUNTERCLOCKWISE, true);
-    pbio_error_t errB = pup_motor_setup(motorB, PUP_DIRECTION_COUNTERCLOCKWISE, true);
+    pbio_error_t errB = pup_motor_setup(motorB, PUP_DIRECTION_CLOCKWISE, true);
 
     // ──────────────────────────────
     // 2つのモータを同時に回転させるループ
