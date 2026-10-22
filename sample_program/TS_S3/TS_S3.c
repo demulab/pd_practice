@@ -33,7 +33,7 @@ void Main(intptr_t exinf)
     while (1)
     {  
         // 押す力を取得（単位：ニュートン[N]）
-        float force = pup_force_sensor_force_mN(ForceSensor);
+        float force = force_sensor_mN(ForceSensor);
 
         // syslog は小数（%f）を表示できないので、100倍して整数にする
         int32_t f100 = (force_sensor_mN(ForceSensor) + 5) / 10;   // 0.01 N 単位に四捨五入
