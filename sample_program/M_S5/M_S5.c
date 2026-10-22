@@ -1,4 +1,4 @@
-// M_S5.c  モータサンプルプログラム5  2026-10-22
+// M_S5.c  モータサンプルプログラム5  2026-10-22 
 #include <kernel.h>              // RTOS（リアルタイムOS）の基本機能
 #include <stdlib.h>              // exit() を使うため
 #include <M_S5.h>
