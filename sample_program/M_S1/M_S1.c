@@ -1,3 +1,4 @@
+// M_S1  モータサンプルプログラム1  2026-10-22
 #include <kernel.h>              // RTOS（リアルタイムOS）の基本機能
 #include <stdlib.h>              // exit() を使うため
 #include <t_syslog.h>            // シリアルモニタにメッセージを出す
