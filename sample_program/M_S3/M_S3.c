@@ -12,10 +12,14 @@ void Main(intptr_t exinf)
     // 起動メッセージをシリアルモニタに出力
     syslog(LOG_NOTICE, "Motor angle read started.");
 
-    // Aポートのモータを初期化
-    // 第2引数：回転方向（時計回り or 反時計回り）
-    pup_motor_t *motorA = pup_motor_setup(PBIO_PORT_ID_A, PUP_DIRECTION_COUNTERCLOCKWISE);
-
+    // ポートのモータを取得（変更１）
+    pup_motor_t *motorA = pup_motor_get_device(PBIO_PORT_ID_A);
+    
+    // Aポートのモータを初期化（変更２）
+    // 第2引数：回転方向（PUP_DIRECTION_CLOCKWISE または COUNTERCLOCKWISE） 
+    // 第3引数：リセット。trueで角度を0にする。
+    pbio_error_t err = pup_motor_setup(motorA, PUP_DIRECTION_CLOCKWISE, true); // Aポートのモータを初期化
+   
     // ──────────────────────────────
     // モータの角度（回転位置）を繰り返し取得して表示
     // ──────────────────────────────
